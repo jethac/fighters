@@ -11,7 +11,7 @@
     us: { label: "United States", cls: "us" },
     su: { label: "USSR / Russia", cls: "su" },
     eu: { label: "Europe", cls: "eu" },
-    rw: { label: "Rest of world", cls: "rw" },
+    rw: { label: "Elsewhere", cls: "rw" },
     hub: { label: "program", cls: "rw" }
   };
 
@@ -46,7 +46,8 @@
     { label: "5th generation", t0: 2005, t1: 2026 }
   ];
   const TL_TOP = 40;
-  const TL_BOTTOM = Y0 + 18 * ROW_H + 150;
+  const MAX_ROW = Math.max(...DATA.nodes.map(n => n.row || 0));
+  const TL_BOTTOM = Y0 + MAX_ROW * ROW_H + 150;
 
   // image sizing + node placement
   const SPR = window.FIGHTER_IMGS || {};
@@ -134,6 +135,19 @@
       t.textContent = "◆ END OF WORLD WAR II · 1945 · THE JET AGE";
       gBands.appendChild(t);
     }
+  }
+
+  // ---------- lane labels ----------
+  for (let r = 0; r <= MAX_ROW; r++) {
+    const label = (DATA.lanes || [])[r];
+    if (!label) continue;
+    const t = document.createElementNS(NS, "text");
+    t.setAttribute("x", MX - 16);
+    t.setAttribute("y", Y0 + r * ROW_H + 4);
+    t.setAttribute("text-anchor", "end");
+    t.setAttribute("class", "lane-label");
+    t.textContent = label.toUpperCase();
+    gBands.appendChild(t);
   }
 
   // ---------- edges ----------
@@ -461,7 +475,7 @@
 
   // ---------- viewBox pan/zoom ----------
   const PAD = 120;
-  const xs = DATA.nodes.map(n => n.x).concat([xOf(-70), xOf(140)]);
+  const xs = DATA.nodes.map(n => n.x).concat([xOf(-70) - 160, xOf(140)]);
   const ys = DATA.nodes.map(n => n.y).concat([TL_TOP, TL_BOTTOM]);
   const world = {
     x: Math.min(...xs) - PAD, y: Math.min(...ys) - PAD,

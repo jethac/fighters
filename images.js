@@ -742,6 +742,13 @@ window.FIGHTER_IMGS = {
 "No machine-readable author provided. Bukvoed assumed (based on copyright claims) · CC BY 2.5",
 "https://commons.wikimedia.org/wiki/File:IAI-Lavi-B-2-hatzerim-2.jpg"
 ],
+"ha300": [
+1080,
+1080,
+"https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/%D8%AD%D9%84%D9%88%D8%A7%D9%86_%D9%A3%D9%A0%D9%A0.jpg/500px-%D8%AD%D9%84%D9%88%D8%A7%D9%86_%D9%A3%D9%A0%D9%A0.jpg",
+"Amr F.Nagy · CC BY-SA 4.0",
+"https://commons.wikimedia.org/wiki/File:%D8%AD%D9%84%D9%88%D8%A7%D9%86_%D9%A3%D9%A0%D9%A0.jpg"
+],
 "saeqeh": [
 480,
 320,
