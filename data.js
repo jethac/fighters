@@ -86,6 +86,8 @@ window.FIGHTER_DATA = {
       wc: "Lockheed_Martin_F-35_Lightning_II" },
     { id: "f35c", n: "F-35C", st: "us", nat: "United States", mfr: "Lockheed Martin", t: 2016.6, row: 3, sub: 1, dl: "carrier variant, first flight 2010",
       wc: "Lockheed_Martin_F-35_Lightning_II" },
+    { id: "f35i", n: "F-35I Adir", st: "us", nat: "United States / Israel", mfr: "Lockheed Martin", t: 2020.5, row: 3, sub: 1, dl: "deliveries from 2016",
+      wc: "Lockheed_Martin_F-35_Lightning_II_Israeli_procurement", gk: "Lockheed_Martin_F-35_Lightning_II_Israeli_procurement", dsg: "Adir (\"Mighty One\") — IAF 140 and 116 Squadrons, Nevatim; first F-35 combat use anywhere, 2018." },
 
     // ── US: Bell / Republic / Convair / General Dynamics ──
     { id: "p39", n: "P-39 Airacobra", st: "us", nat: "United States", mfr: "Bell", t: 1939.5, row: 4, dl: "first flight 1938",
@@ -108,6 +110,8 @@ window.FIGHTER_DATA = {
       wc: "General_Dynamics_F-16_Fighting_Falcon", dsg: "European consortium production in Belgium and the Netherlands (SABCA/Fokker); Israel: Netz." },
     { id: "f16cd", n: "F-16C/D", st: "us", nat: "United States", mfr: "General Dynamics / Lockheed Martin", t: 1984, row: 4, sub: 1, dl: "first flight 1984",
       wc: "General_Dynamics_F-16_Fighting_Falcon", dsg: "License/co-production: TAI (Turkey), KAI (Korea KF-16); Israel: Barak, F-16I Sufa." },
+    { id: "f16i", n: "F-16I Sufa", st: "us", nat: "United States / Israel", mfr: "Lockheed Martin", t: 2007.5, row: 4, sub: 1, dl: "deliveries 2004–09",
+      wc: "F-16I_Sufa", gk: "General_Dynamics_F-16_Fighting_Falcon_variants", dsg: "Sufa (\"Storm\") — 102 two-seaters; Israel is the largest F-16 operator outside the USAF." },
     { id: "f16ef", n: "F-16E/F Block 60", st: "us", nat: "United States", mfr: "Lockheed Martin", t: 2003, row: 4, sub: 1, dl: "first flight 2003",
       wc: "General_Dynamics_F-16_Fighting_Falcon", dsg: "UAE: 'Desert Falcon'; the current top of the line is the F-16V/Block 70." },
 
@@ -146,7 +150,7 @@ window.FIGHTER_DATA = {
     { id: "f15e", n: "F-15E Strike Eagle", st: "us", nat: "United States", mfr: "McDonnell Douglas", t: 1986.8, row: 6, sub: 1, dl: "first flight 1986",
       wc: "McDonnell_Douglas_F-15E_Strike_Eagle", dsg: "Israel: F-15I Ra'am; Saudi Arabia: F-15S/SA; Singapore: F-15SG; Qatar: F-15QA." },
     { id: "f15ex", n: "F-15EX Eagle II", st: "us", nat: "United States", mfr: "Boeing", t: 2021, row: 6, sub: 1, dl: "first flight 2021",
-      wc: "Boeing_F-15EX_Eagle_II" },
+      wc: "Boeing_F-15EX_Eagle_II", dsg: "Israel: F-15IA, ordered 2024 as the Ra'am's successor." },
     { id: "f15b", n: "F-15B", st: "us", nat: "United States", mfr: "McDonnell Douglas", t: 1976.5, row: 7, sub: 1, dl: "two-seat, first flew 1973 as TF-15A",
       wc: "McDonnell_Douglas_F-15_Eagle" },
     { id: "f15d", n: "F-15D", st: "us", nat: "United States", mfr: "McDonnell Douglas", t: 1979.8, row: 7, sub: 1, dl: "two-seat, deliveries 1979",
@@ -162,7 +166,7 @@ window.FIGHTER_DATA = {
     { id: "hurricane", n: "Hurricane", st: "eu", nat: "United Kingdom", mfr: "Hawker", t: 1935, row: 8, dl: "first flight 1935",
       wc: "Hawker_Hurricane", dsg: "Sea Hurricane; Canadian-built by CCF; nearly 3,000 to the USSR via Lend-Lease." },
     { id: "meteor", n: "Meteor", st: "eu", nat: "United Kingdom", mfr: "Gloster", t: 1943, row: 8, dl: "first flight 1943",
-      wc: "Gloster_Meteor", dsg: "Fokker-built F.8s for the Netherlands and Belgium; Argentina flew Meteors into the 1970s." },
+      wc: "Gloster_Meteor", dsg: "Fokker-built F.8s for the Netherlands and Belgium; Argentina flew Meteors into the 1970s; Israel's first jet fighter, from 1953." },
     { id: "hunter", n: "Hunter", st: "eu", nat: "United Kingdom", mfr: "Hawker", t: 1951, row: 8, dl: "first flight 1951",
       wc: "Hawker_Hunter", dsg: "License-built by Fokker and Fairey/SABCA; served 21 air forces." },
     { id: "lightning", n: "Lightning", st: "eu", nat: "United Kingdom", mfr: "English Electric", t: 1954, row: 8, dl: "P.1 first flight 1954",
@@ -176,7 +180,7 @@ window.FIGHTER_DATA = {
 
     // ── UK: Supermarine / de Havilland / Harrier lane ─────
     { id: "spitfire", n: "Spitfire", st: "eu", nat: "United Kingdom", mfr: "Supermarine", t: 1936, row: 9, dl: "first flight 1936",
-      wc: "Supermarine_Spitfire", dsg: "Naval Seafire; flown by the USSR (Lend-Lease), USAAF, and two dozen other air arms." },
+      wc: "Supermarine_Spitfire", dsg: "Naval Seafire; flown by the USSR (Lend-Lease), USAAF, and two dozen other air arms — including Israel's 101 Squadron in 1948." },
     { id: "vampire", n: "Vampire", st: "eu", nat: "United Kingdom", mfr: "de Havilland", t: 1943.8, row: 9, dl: "first flight 1943",
       wc: "De_Havilland_Vampire", dsg: "License-built in France (SNCASE Mistral), Switzerland, Australia, India." },
     { id: "venom", n: "Venom", st: "eu", nat: "United Kingdom", mfr: "de Havilland", t: 1949, row: 9, dl: "first flight 1949",
@@ -206,7 +210,7 @@ window.FIGHTER_DATA = {
     { id: "ouragan", n: "Ouragan", st: "eu", nat: "France", mfr: "Dassault", t: 1949, row: 11, dl: "first flight 1949",
       wc: "Dassault_Ouragan", dsg: "India: Toofani; early IDF/AF equipment." },
     { id: "mystere4", n: "Mystère IV", st: "eu", nat: "France", mfr: "Dassault", t: 1952, row: 11, dl: "first flight 1952",
-      wc: "Dassault_Myst%C3%A8re_IV", gk: "Dassault_Mystere_IV" },
+      wc: "Dassault_Myst%C3%A8re_IV", gk: "Dassault_Mystere_IV", dsg: "India: 110 for the IAF; Israel: 60 Mystère IVAs, Suez 1956 veterans." },
     { id: "supermystere", n: "Super Mystère", st: "eu", nat: "France", mfr: "Dassault", t: 1955, row: 11, dl: "first flight 1955",
       wc: "Dassault_Super_Myst%C3%A8re", gk: "Dassault_Super_Mystere", dsg: "Israel: Sa'ar, later re-engined with the A-4's J52." },
     { id: "mirage3", n: "Mirage III", st: "eu", nat: "France", mfr: "Dassault", t: 1956.8, row: 11, dl: "first flight 1956",
@@ -398,6 +402,7 @@ window.FIGHTER_DATA = {
     { f: "f35", t: "f35a", type: "d" },
     { f: "f35a", t: "f35b", type: "d" },
     { f: "f35b", t: "f35c", type: "d" },
+    { f: "f35a", t: "f35i", type: "d" },
     { f: "yak141", t: "f35b", type: "l",
       note: "Lockheed partnered with Yakovlev in the 1990s; the F-35B's shaft-driven lift-fan layout echoes Yak-141 lessons." },
 
@@ -409,6 +414,7 @@ window.FIGHTER_DATA = {
     { f: "f16", t: "f16ab", type: "d" },
     { f: "f16ab", t: "f16cd", type: "d" },
     { f: "f16cd", t: "f16ef", type: "d" },
+    { f: "f16cd", t: "f16i", type: "d" },
     { f: "f16cd", t: "f2", type: "c",
       note: "The F-2 is a licensed, enlarged F-16 co-developed by Mitsubishi and Lockheed Martin." },
     { f: "f16cd", t: "fa50", type: "c",
