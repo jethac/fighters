@@ -742,6 +742,41 @@ window.FIGHTER_IMGS = {
 "No machine-readable author provided. Bukvoed assumed (based on copyright claims) · CC BY 2.5",
 "https://commons.wikimedia.org/wiki/File:IAI-Lavi-B-2-hatzerim-2.jpg"
 ],
+"he112": [
+1920,
+1089,
+"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/He_112_2015.jpg/500px-He_112_2015.jpg",
+"unknown · Public domain",
+"https://commons.wikimedia.org/wiki/File:He_112_2015.jpg"
+],
+"do335": [
+2904,
+1224,
+"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Dornier_Pfeil2.jpg/500px-Dornier_Pfeil2.jpg",
+"Ad Meskens · CC BY-SA 3.0",
+"https://commons.wikimedia.org/wiki/File:Dornier_Pfeil2.jpg"
+],
+"he162": [
+1920,
+1434,
+"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Heinkel%2C_He_162%2C_Spatz_Volksjager_%287585406720%29.jpg/500px-Heinkel%2C_He_162%2C_Spatz_Volksjager_%287585406720%29.jpg",
+"SDASM Archives · Public domain",
+"https://commons.wikimedia.org/wiki/File:Heinkel%2C_He_162%2C_Spatz_Volksjager_%287585406720%29.jpg"
+],
+"bf110": [
+800,
+557,
+"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Bundesarchiv_Bild_101I-377-2801-013%2C_Flugzeug_Messerschmitt_Me_110.jpg/500px-Bundesarchiv_Bild_101I-377-2801-013%2C_Flugzeug_Messerschmitt_Me_110.jpg",
+"Jakobsen [Jacobsen] · CC BY-SA 3.0 de",
+"https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_101I-377-2801-013%2C_Flugzeug_Messerschmitt_Me_110.jpg"
+],
+"me163": [
+1800,
+1383,
+"https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Messerschmitt_Me_163B_USAF.jpg/500px-Messerschmitt_Me_163B_USAF.jpg",
+"USAF · Public domain",
+"https://commons.wikimedia.org/wiki/File:Messerschmitt_Me_163B_USAF.jpg"
+],
 "ha300": [
 1080,
 1080,
