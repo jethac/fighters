@@ -153,6 +153,8 @@ window.FIGHTER_DATA = {
       wc: "McDonnell_Douglas_F-15_Eagle" },
     { id: "f15j", n: "F-15J/DJ", st: "rw", nat: "Japan", mfr: "Mitsubishi Heavy Industries", t: 1984, row: 7, sub: 1, dl: "license production from 1981",
       wc: "Mitsubishi_F-15J", dsg: "213 built — the only full F-15 license production line outside the US." },
+    { id: "f15i", n: "F-15I Ra'am", st: "us", nat: "United States / Israel", mfr: "McDonnell Douglas / Boeing", t: 1997.5, row: 7, sub: 1, dl: "deliveries 1998",
+      wc: "F-15I_Ra'am", gk: "McDonnell_Douglas_F-15E_Strike_Eagle", dsg: "Ra'am (\"Thunder\") — IAF 69 Squadron, Hatzerim; 25 built." },
     { id: "f15k", n: "F-15K Slam Eagle", st: "us", nat: "United States / South Korea", mfr: "Boeing", t: 2005, row: 7, sub: 1, dl: "first flight 2005",
       wc: "McDonnell_Douglas_F-15E_Strike_Eagle", gk: "Boeing_F-15K_Slam_Eagle", dsg: "Republic of Korea Air Force; some assemblies by Korea Aerospace Industries." },
 
@@ -435,6 +437,7 @@ window.FIGHTER_DATA = {
     { f: "f15c", t: "f15j", type: "c" },
     { f: "f15d", t: "f15e", type: "d",
       note: "The Strike Eagle grew from the two-seat airframe via the company-funded Strike Eagle demonstrator." },
+    { f: "f15e", t: "f15i", type: "d" },
     { f: "f15e", t: "f15k", type: "d" },
     { f: "f15e", t: "f15ex", type: "d",
       note: "Via the Advanced Eagle line (F-15SA/QA) back into USAF service." },
