@@ -742,6 +742,69 @@ window.FIGHTER_IMGS = {
 "No machine-readable author provided. Bukvoed assumed (based on copyright claims) · CC BY 2.5",
 "https://commons.wikimedia.org/wiki/File:IAI-Lavi-B-2-hatzerim-2.jpg"
 ],
+"a4": [
+1940,
+1551,
+"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Douglas_A-4E_Skyhawk_of_VA-164_in_flight_over_Vietnam_on_21_November_1967_%286430101%29.jpg/500px-Douglas_A-4E_Skyhawk_of_VA-164_in_flight_over_Vietnam_on_21_November_1967_%286430101%29.jpg",
+"Lt.JG Nelson, U.S. Navy · Public domain",
+"https://commons.wikimedia.org/wiki/File:Douglas_A-4E_Skyhawk_of_VA-164_in_flight_over_Vietnam_on_21_November_1967_%286430101%29.jpg"
+],
+"a6": [
+2535,
+1713,
+"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Grumman_KA-6D_Intruder_of_VA-34_in_flight%2C_in_1988.jpg/500px-Grumman_KA-6D_Intruder_of_VA-34_in_flight%2C_in_1988.jpg",
+"U.S. Navy · Public domain",
+"https://commons.wikimedia.org/wiki/File:Grumman_KA-6D_Intruder_of_VA-34_in_flight%2C_in_1988.jpg"
+],
+"a7": [
+1754,
+1216,
+"https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/A-7E_Corsair_II_of_VA-146_in_flight_on_16_November_1974_%28NNAM.1996.253.7100.039%29.jpg/500px-A-7E_Corsair_II_of_VA-146_in_flight_on_16_November_1974_%28NNAM.1996.253.7100.039%29.jpg",
+"Robert L. Lawson, U.S. Navy · Public domain",
+"https://commons.wikimedia.org/wiki/File:A-7E_Corsair_II_of_VA-146_in_flight_on_16_November_1974_%28NNAM.1996.253.7100.039%29.jpg"
+],
+"a10": [
+3392,
+2304,
+"https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Fairchild_Republic_A-10_Thunderbolt_II_-_32156159151.jpg/500px-Fairchild_Republic_A-10_Thunderbolt_II_-_32156159151.jpg",
+"Master Sgt. William Greer, U.S. Air Force · Public domain",
+"https://commons.wikimedia.org/wiki/File:Fairchild_Republic_A-10_Thunderbolt_II_-_32156159151.jpg"
+],
+"tornado": [
+2948,
+1731,
+"https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/RAF_Tornado_GR4_MOD_45155233.jpg/500px-RAF_Tornado_GR4_MOD_45155233.jpg",
+"Corporal Mike Jones · OGL v1.0",
+"https://commons.wikimedia.org/wiki/File:RAF_Tornado_GR4_MOD_45155233.jpg"
+],
+"mig27": [
+1112,
+676,
+"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/MiG-27_%28cropped%29.jpg/500px-MiG-27_%28cropped%29.jpg",
+"Rob Schleiffert · CC BY-SA 4.0",
+"https://commons.wikimedia.org/wiki/File:MiG-27_%28cropped%29.jpg"
+],
+"su24": [
+1024,
+680,
+"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Sukhoi_Su-24_inflight_Mishin-2.jpg/500px-Sukhoi_Su-24_inflight_Mishin-2.jpg",
+"Alexander Mishin · CC BY-SA 3.0",
+"https://commons.wikimedia.org/wiki/File:Sukhoi_Su-24_inflight_Mishin-2.jpg"
+],
+"su25": [
+1451,
+944,
+"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Sukhoi_Su-25_of_the_Russian_Air_Force_landing_at_Vladivostok_%288683076150%29.jpg/500px-Sukhoi_Su-25_of_the_Russian_Air_Force_landing_at_Vladivostok_%288683076150%29.jpg",
+"Fedor Leukhin · CC BY-SA 2.0",
+"https://commons.wikimedia.org/wiki/File:Sukhoi_Su-25_of_the_Russian_Air_Force_landing_at_Vladivostok_%288683076150%29.jpg"
+],
+"q5": [
+1056,
+674,
+"https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/BAF_Nanchang_A-5.jpg/500px-BAF_Nanchang_A-5.jpg",
+"Faisal Akram · CC BY-SA 4.0",
+"https://commons.wikimedia.org/wiki/File:BAF_Nanchang_A-5.jpg"
+],
 "he112": [
 1920,
 1089,
