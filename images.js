@@ -749,6 +749,76 @@ window.FIGHTER_IMGS = {
 "Amr F.Nagy · CC BY-SA 4.0",
 "https://commons.wikimedia.org/wiki/File:%D8%AD%D9%84%D9%88%D8%A7%D9%86_%D9%A3%D9%A0%D9%A0.jpg"
 ],
+"a5m": [
+421,
+195,
+"https://upload.wikimedia.org/wikipedia/commons/e/ef/A5M_Claude.jpg",
+"User Kgbudge on en.wikipedia · Public domain",
+"https://commons.wikimedia.org/wiki/File:A5M_Claude.jpg"
+],
+"j2m": [
+400,
+195,
+"https://upload.wikimedia.org/wikipedia/commons/0/07/Mitsubishi_J2M.JPG",
+"unknown · Public domain",
+"https://commons.wikimedia.org/wiki/File:Mitsubishi_J2M.JPG"
+],
+"n1k2": [
+1722,
+1126,
+"https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Kawanishi_N1K2-J_050317-F-1234P-015.jpg/500px-Kawanishi_N1K2-J_050317-F-1234P-015.jpg",
+"USAF · Public domain",
+"https://commons.wikimedia.org/wiki/File:Kawanishi_N1K2-J_050317-F-1234P-015.jpg"
+],
+"ki27": [
+847,
+389,
+"https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Ki-27_2.jpg/500px-Ki-27_2.jpg",
+"unknown · Public domain",
+"https://commons.wikimedia.org/wiki/File:Ki-27_2.jpg"
+],
+"ki43": [
+650,
+420,
+"https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Wagner_Book_%2816334919801%29_brightened%2C_expanded.jpg/500px-Wagner_Book_%2816334919801%29_brightened%2C_expanded.jpg",
+"unknown · Public domain",
+"https://commons.wikimedia.org/wiki/File:Wagner_Book_%2816334919801%29_brightened%2C_expanded.jpg"
+],
+"ki44": [
+924,
+616,
+"https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Nakajima_Ki-44-II_Otsu_at_Clark_1945.jpg/500px-Nakajima_Ki-44-II_Otsu_at_Clark_1945.jpg",
+"unknown · Public domain",
+"https://commons.wikimedia.org/wiki/File:Nakajima_Ki-44-II_Otsu_at_Clark_1945.jpg"
+],
+"ki61": [
+2122,
+1018,
+"https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Kawasaki_Ki-61-14.jpg/500px-Kawasaki_Ki-61-14.jpg",
+"unknown · Public domain",
+"https://commons.wikimedia.org/wiki/File:Kawasaki_Ki-61-14.jpg"
+],
+"ki100": [
+850,
+538,
+"https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Kawasaki_Ki-100_1b.jpg/500px-Kawasaki_Ki-100_1b.jpg",
+"Murgatroyd49 · CC BY 4.0",
+"https://commons.wikimedia.org/wiki/File:Kawasaki_Ki-100_1b.jpg"
+],
+"azarakhsh": [
+2100,
+1575,
+"https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/An_IRIAF_HESA_Azarakhsh_in_Vahdati_Airbase_Air_Show.JPG/500px-An_IRIAF_HESA_Azarakhsh_in_Vahdati_Airbase_Air_Show.JPG",
+"Marjan-shivA · CC BY-SA 3.0",
+"https://commons.wikimedia.org/wiki/File:An_IRIAF_HESA_Azarakhsh_in_Vahdati_Airbase_Air_Show.JPG"
+],
+"kowsar": [
+640,
+365,
+"https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/HESA_Kowsar4.jpg/500px-HESA_Kowsar4.jpg",
+"Tasnim News Agency · CC BY 4.0",
+"https://commons.wikimedia.org/wiki/File:HESA_Kowsar4.jpg"
+],
 "saeqeh": [
 480,
 320,

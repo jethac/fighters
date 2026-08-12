@@ -74,6 +74,7 @@
   // ---------- SVG scaffolding ----------
   const NS = "http://www.w3.org/2000/svg";
   const stage = document.getElementById("stage");
+  for (const old of stage.querySelectorAll(":scope > svg")) old.remove(); // idempotent rebuild
   const svg = document.createElementNS(NS, "svg");
   stage.appendChild(svg);
 
