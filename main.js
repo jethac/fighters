@@ -151,88 +151,175 @@
     for (const list of groups.values()) {
       list.sort((p, q) => {
         const bp = nodesById.get(p.t), bq = nodesById.get(q.t);
-        return Math.abs(bp.y - nodesById.get(p.f).y) - Math.abs(bq.y - nodesById.get(q.f).y) || bp.x - bq.x;
+        return Math.abs(bq.y - nodesById.get(q.f).y) - Math.abs(bp.y - nodesById.get(p.f).y) || bp.x - bq.x;
       });
       list.forEach((e, i) => outIdx.set(e, i));
     }
   }
 
+  // Global orthogonal ("menorah") router. Long horizontal travel happens only
+  // in the empty channels between lanes, on allocated tracks so no two runs
+  // at the same height overlap in x. Verticals are placed in gaps between
+  // nodes and globally staggered so none coincide. Arrivals at a shared
+  // target fan out across slightly offset entry heights.
+  const rowOf = n => Math.round((n.y - Y0) / ROW_H);
+  const byRow = new Map();
+  for (const n of DATA.nodes) {
+    const r = rowOf(n);
+    if (!byRow.has(r)) byRow.set(r, []);
+    byRow.get(r).push(n);
+  }
+  const hwOf = n => n.sub ? 60 : Math.max((n.dw || 90) / 2, 64) + 10;
+  const blockerAt = (row, x, skip) =>
+    (byRow.get(row) || []).find(o => !skip.includes(o) && Math.abs(x - o.x) < hwOf(o));
+  const laneClear = (row, x1, x2, skip) => {
+    const lo = Math.min(x1, x2) + 6, hi = Math.max(x1, x2) - 6;
+    return !(byRow.get(row) || []).some(o => !skip.includes(o) && o.x + hwOf(o) > lo && o.x - hwOf(o) < hi);
+  };
+
+  // channel track allocator: gap g sits between lane g and lane g+1
+  const chans = new Map();
+  const TRACK_ORDER = [2, 3, 1, 4, 0, 5];
+  const chanY = (g, k) => Y0 + g * ROW_H + 86 + k * 11;
+  function alloc(g, x1, x2) {
+    if (x2 < x1) { const t = x1; x1 = x2; x2 = t; }
+    if (!chans.has(g)) chans.set(g, [[], [], [], [], [], []]);
+    const tracks = chans.get(g);
+    for (const k of TRACK_ORDER) {
+      if (!tracks[k].some(iv => x1 - 24 < iv[1] && x2 + 24 > iv[0])) {
+        tracks[k].push([x1, x2]);
+        return chanY(g, k);
+      }
+    }
+    tracks[2].push([x1, x2]);
+    return chanY(g, 2);
+  }
+
+  // vertical placement: dodge nodes in crossed rows, stagger vs other verticals
+  const verts = [];
+  function placeVert(x, ya, yb, dir, rows, skip) {
+    const y1 = Math.min(ya, yb), y2 = Math.max(ya, yb);
+    for (let guard = 0; guard < 60; guard++) {
+      const nb = rows.map(r => blockerAt(r, x, skip)).find(Boolean);
+      if (nb) { x = nb.x + (hwOf(nb) + 8) * dir; continue; }
+      if (verts.some(v => Math.abs(v.x - x) < 9 && y1 - 4 < v.y2 && y2 + 4 > v.y1)) { x += 9 * dir; continue; }
+      break;
+    }
+    verts.push({ x, y1, y2 });
+    return x;
+  }
+
+  // rounded orthogonal path through corner points
+  const R = 14;
+  function ortho(pts) {
+    let s = `M ${pts[0][0]} ${pts[0][1]}`;
+    for (let k = 1; k < pts.length - 1; k++) {
+      const [px, py] = pts[k - 1], [cx2, cy2] = pts[k], [nx2, ny2] = pts[k + 1];
+      const r1 = Math.min(R, Math.hypot(cx2 - px, cy2 - py) / 2);
+      const r2 = Math.min(R, Math.hypot(nx2 - cx2, ny2 - cy2) / 2);
+      const r = Math.min(r1, r2);
+      const inx = cx2 - Math.sign(cx2 - px) * r, iny = cy2 - Math.sign(cy2 - py) * r;
+      const outx = cx2 + Math.sign(nx2 - cx2) * r, outy = cy2 + Math.sign(ny2 - cy2) * r;
+      s += ` L ${inx} ${iny} Q ${cx2} ${cy2}, ${outx} ${outy}`;
+    }
+    const last = pts[pts.length - 1];
+    s += ` L ${last[0]} ${last[1]}`;
+    return s;
+  }
+
+  // fan-in: spread arrivals when several edges enter one node
+  const inCount = new Map(), inSeen = new Map();
+  for (const e of DATA.edges) if (nodesById.get(e.t)) inCount.set(e.t, (inCount.get(e.t) || 0) + 1);
+  const FAN = [0, -8, 8, -16, 16, -24, 24];
+
   const edgeEls = [];
   for (const e of DATA.edges) {
     const a = nodesById.get(e.f), b = nodesById.get(e.t);
     if (!a || !b) continue;
-    // shorten both ends so arrows meet node edges, not centers
-    let dx = b.x - a.x, dy = b.y - a.y;
-    const len = Math.hypot(dx, dy) || 1;
-    const ux = dx / len, uy = dy / len;
-    const ax = a.x + ux * Math.min(nodeRadius(a), len * 0.4);
-    const ay = a.y + uy * Math.min(nodeRadius(a), len * 0.4);
-    const bx = b.x - ux * Math.min(nodeRadius(b), len * 0.4);
-    const by = b.y - uy * Math.min(nodeRadius(b), len * 0.4);
-    dx = bx - ax; dy = by - ay;
-
-    // menorah routing: horizontal trunk lanes with squared-off branches.
-    // A branch leaves its parent, turns 90 degrees (rounded), runs vertically
-    // to the child's lane, turns again, and runs horizontally into the child -
-    // so every line is horizontal or vertical, and branches from one node
-    // stagger their turn points to stay parallel, never collinear.
-    const sx = dx >= 0 ? 1 : -1;
+    const ra = rowOf(a), rb = rowOf(b);
+    const sx = b.x >= a.x ? 1 : -1;
     const i = outIdx.get(e) || 0;
-    const R = 16;                        // corner radius
-    const CH = 75;                       // bypass channel offset from a lane
-    function laneBlocked(y, x1, x2) {
-      const lo = Math.min(x1, x2) + 30, hi = Math.max(x1, x2) - 30;
-      return DATA.nodes.some(o => o !== a && o !== b && Math.abs(o.y - y) < 58 && o.x > lo && o.x < hi);
-    }
-    // rounded orthogonal path through corner points
-    function ortho(pts) {
-      let s = `M ${pts[0][0]} ${pts[0][1]}`;
-      for (let k = 1; k < pts.length - 1; k++) {
-        const [px, py] = pts[k - 1], [cx2, cy2] = pts[k], [nx2, ny2] = pts[k + 1];
-        const r1 = Math.min(R, Math.hypot(cx2 - px, cy2 - py) / 2);
-        const r2 = Math.min(R, Math.hypot(nx2 - cx2, ny2 - cy2) / 2);
-        const r = Math.min(r1, r2);
-        const inx = cx2 - Math.sign(cx2 - px) * r, iny = cy2 - Math.sign(cy2 - py) * r;
-        const outx = cx2 + Math.sign(nx2 - cx2) * r, outy = cy2 + Math.sign(ny2 - cy2) * r;
-        s += ` L ${inx} ${iny} Q ${cx2} ${cy2}, ${outx} ${outy}`;
-      }
-      const last = pts[pts.length - 1];
-      s += ` L ${last[0]} ${last[1]}`;
-      return s;
-    }
-    let d, qx, qy;
-    if (Math.abs(a.y - b.y) < 60) {
-      if (!laneBlocked(a.y, a.x, b.x)) {
-        d = `M ${ax} ${ay} L ${bx} ${by}`;
-        qx = ax + dx / 2; qy = ay + dy / 2 - 7;
+    const seen = inSeen.get(e.t) || 0; inSeen.set(e.t, seen + 1);
+    const fanOff = (inCount.get(e.t) > 1 ? FAN[seen % FAN.length] : 0) * (b.sub ? 0.5 : 1);
+    const ax = a.x + (nodeRadius(a) + 2) * sx, ay = a.y;
+    const ex = b.x - (nodeRadius(b) + 2) * sx, ey = b.y + fanOff;
+    let pts = null, d;
+
+    if (ra === rb) {
+      if (laneClear(ra, a.x, b.x, [a, b])) {
+        d = `M ${ax} ${ay} L ${ex} ${b.y}`;
+        pts = [[ax, ay], [ex, b.y]];
       } else {
-        // bump over intermediate nodes: up into the channel, along, back down
-        const ch = ay - CH - i * 10;
-        const x1 = ax + (26 + i * 22) * sx;
-        const x2 = bx - 30 * sx;
-        d = ortho([[ax, ay], [x1, ay], [x1, ch], [x2, ch], [x2, by], [bx, by]]);
-        qx = (x1 + x2) / 2; qy = ch - 7;
+        // bump over intermediate nodes through the channel above
+        const g = ra - 1;
+        const x1 = placeVert(ax + (22 + i * 24) * sx, ay, chanY(g, 5), sx, [], [a, b]);
+        const x2 = placeVert(ex - 30 * sx, ey, chanY(g, 5), -sx, [], [a, b]);
+        const yC = alloc(g, x1, x2);
+        pts = [[ax, ay], [x1, ay], [x1, yC], [x2, yC], [x2, ey], [ex, ey]];
+        d = ortho(pts);
       }
     } else {
-      const stub = (20 + i * 24) * sx;
-      const x1 = ax + stub;                // branch point near the parent
-      if (Math.abs(dx) < Math.abs(stub) + R * 2 + 30) {
-        d = `M ${ax} ${ay} L ${bx} ${by}`; // too tight: plain line
-        qx = ax + dx / 2; qy = ay + dy / 2 - 7;
+      const down = rb > ra;
+      const g1 = down ? ra : ra - 1;       // channel adjacent to source, toward target
+      const g2 = down ? rb - 1 : rb;       // channel adjacent to target, on approach side
+      const x1 = placeVert(ax + (22 + i * 24) * sx, ay, chanY(g1, 2), sx, [], [a, b]);
+      if (Math.abs(x1 - b.x) < (b.sub ? 40 : (b.dw || 96) / 2 - 4) && down) {
+        // branch already sits over the child: drop straight onto its top
+        const eyv = b.y - (b.sub ? 16 : (b.dh || 60) / 2 + 3);
+        pts = [[ax, ay], [x1, ay], [x1, eyv]];
+        d = ortho(pts);
       } else {
-        d = ortho([[ax, ay], [x1, ay], [x1, by], [bx, by]]);
-        qx = (x1 + bx) / 2; qy = by - 8;
+        const want = ex - 26 * sx;
+        const sib = blockerAt(rb, want, [a, b]);
+        let xW, eyv = null;
+        if (sib && down) {
+          // a sibling occupies the approach slot: drop onto the child's top
+          xW = b.x + fanOff;
+          eyv = b.y - (b.sub ? 14 : (b.dh || 60) / 2 + 3);
+        } else {
+          xW = placeVert(want, chanY(g2, 2), ey, -sx, [], [a, b]);
+        }
+        let head, yLast;
+        if (g1 === g2) {
+          const yC = alloc(g1, x1, xW);
+          head = [[ax, ay], [x1, ay], [x1, yC]];
+          yLast = yC;
+        } else {
+          const rowsBetween = [];
+          for (let r = Math.min(ra, rb) + 1; r < Math.max(ra, rb); r++) rowsBetween.push(r);
+          const xC = placeVert(xW - 34 * sx, chanY(g1, 2), chanY(g2, 2), -sx, rowsBetween, [a, b]);
+          const yC1 = alloc(g1, x1, xC);
+          const yC2 = alloc(g2, xC, xW);
+          head = [[ax, ay], [x1, ay], [x1, yC1], [xC, yC1], [xC, yC2]];
+          yLast = yC2;
+        }
+        const tail = eyv === null
+          ? [[xW, yLast], [xW, ey], [ex, ey]]
+          : [[xW, yLast], [xW, eyv]];
+        pts = head.concat(tail);
+        d = ortho(pts);
       }
     }
+
+    // "?" marker sits at the midpoint of the longest horizontal run
+    let qx = (ax + ex) / 2, qy = ay - 7, best = 0;
+    for (let k = 1; k < pts.length; k++) {
+      const [p1x, p1y] = pts[k - 1], [p2x, p2y] = pts[k];
+      if (p1y === p2y && Math.abs(p2x - p1x) > best) {
+        best = Math.abs(p2x - p1x);
+        qx = (p1x + p2x) / 2; qy = p1y - 7;
+      }
+    }
+
     const path = document.createElementNS(NS, "path");
     path.setAttribute("d", d);
     path.setAttribute("class", "edge");
     path.setAttribute("stroke", "#6fb6e8");
-    path.setAttribute("stroke-width", "2");
     path.setAttribute("marker-end", "url(#arr)");
-    if (e.type === "l") path.setAttribute("stroke-dasharray", "7 6");
-    else if (e.type === "c") path.setAttribute("stroke-dasharray", "12 5 2 5");
-    path.setAttribute("opacity", e.type === "d" ? "0.9" : "0.75");
+    if (e.type === "l") { path.setAttribute("stroke-dasharray", "6 6"); path.setAttribute("stroke-width", "1.4"); }
+    else if (e.type === "c") { path.setAttribute("stroke-dasharray", "12 5 2 5"); path.setAttribute("stroke-width", "1.6"); }
+    else path.setAttribute("stroke-width", "2.2");
+    path.setAttribute("opacity", e.type === "d" ? "0.95" : e.type === "c" ? "0.6" : "0.45");
     gEdges.appendChild(path);
     const hit = document.createElementNS(NS, "path");
     hit.setAttribute("d", path.getAttribute("d"));

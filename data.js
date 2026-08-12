@@ -76,15 +76,15 @@ window.FIGHTER_DATA = {
       wc: "Lockheed_YF-22" },
     { id: "f22", n: "F-22 Raptor", st: "us", nat: "United States", mfr: "Lockheed Martin", t: 1997, row: 3, dl: "first flight 1997",
       wc: "Lockheed_Martin_F-22_Raptor", note: "Export banned by US law (the Obey amendment)." },
-    { id: "x35", n: "X-35", st: "us", nat: "United States", mfr: "Lockheed Martin", t: 2000, row: 3, dl: "first flight 2000",
+    { id: "x35", n: "X-35", st: "us", nat: "United States", mfr: "Lockheed Martin", t: 2001, row: 3, dl: "first flight 2000",
       wc: "Lockheed_Martin_X-35" },
     { id: "f35", n: "F-35 Lightning II", st: "us", nat: "United States", mfr: "Lockheed Martin", t: 2006, row: 3, dl: "first flight 2006",
       wc: "Lockheed_Martin_F-35_Lightning_II" },
     { id: "f35a", n: "F-35A", st: "us", nat: "United States", mfr: "Lockheed Martin", t: 2008.5, row: 3, sub: 1, dl: "CTOL variant",
       wc: "Lockheed_Martin_F-35_Lightning_II", dsg: "Israel: F-35I Adir with national EW fit; Italian and Japanese FACO final assembly." },
-    { id: "f35b", n: "F-35B", st: "us", nat: "United States", mfr: "Lockheed Martin", t: 2011.5, row: 3, sub: 1, dl: "STOVL, first flight 2008",
+    { id: "f35b", n: "F-35B", st: "us", nat: "United States", mfr: "Lockheed Martin", t: 2012.6, row: 3, sub: 1, dl: "STOVL, first flight 2008",
       wc: "Lockheed_Martin_F-35_Lightning_II" },
-    { id: "f35c", n: "F-35C", st: "us", nat: "United States", mfr: "Lockheed Martin", t: 2014.5, row: 3, sub: 1, dl: "carrier variant, first flight 2010",
+    { id: "f35c", n: "F-35C", st: "us", nat: "United States", mfr: "Lockheed Martin", t: 2016.6, row: 3, sub: 1, dl: "carrier variant, first flight 2010",
       wc: "Lockheed_Martin_F-35_Lightning_II" },
 
     // ── US: Bell / Republic / Convair / General Dynamics ──
@@ -355,7 +355,7 @@ window.FIGHTER_DATA = {
       wc: "Shenyang_J-11", note: "Continued Flanker production with Chinese avionics and (eventually) WS-10 engines — without a Sukhoi license." },
     { id: "j15", n: "Shenyang J-15", st: "rw", nat: "China", mfr: "Shenyang Aircraft Corporation", t: 2009.5, row: 21, dl: "first flight 2009",
       wc: "Shenyang_J-15", dsg: "Carrier fighter for Liaoning and Shandong." },
-    { id: "j16", n: "Shenyang J-16", st: "rw", nat: "China", mfr: "Shenyang Aircraft Corporation", t: 2012.8, row: 21, dl: "first flight 2011",
+    { id: "j16", n: "Shenyang J-16", st: "rw", nat: "China", mfr: "Shenyang Aircraft Corporation", t: 2013.9, row: 21, dl: "first flight 2011",
       wc: "Shenyang_J-16" }
   ],
 
