@@ -138,19 +138,6 @@
     }
   }
 
-  // ---------- lane labels ----------
-  for (let r = 0; r <= MAX_ROW; r++) {
-    const label = (DATA.lanes || [])[r];
-    if (!label) continue;
-    const t = document.createElementNS(NS, "text");
-    t.setAttribute("x", MX - 16);
-    t.setAttribute("y", Y0 + r * ROW_H + 4);
-    t.setAttribute("text-anchor", "end");
-    t.setAttribute("class", "lane-label");
-    t.textContent = label.toUpperCase();
-    gBands.appendChild(t);
-  }
-
   // ---------- edges ----------
   // fan-out index: separates multiple edges leaving one node in the same direction
   const outIdx = new Map();
@@ -487,7 +474,7 @@
 
   // ---------- viewBox pan/zoom ----------
   const PAD = 120;
-  const xs = DATA.nodes.map(n => n.x).concat([xOf(-70) - 160, xOf(140)]);
+  const xs = DATA.nodes.map(n => n.x).concat([xOf(-70), xOf(140)]);
   const ys = DATA.nodes.map(n => n.y).concat([TL_TOP, TL_BOTTOM]);
   const world = {
     x: Math.min(...xs) - PAD, y: Math.min(...ys) - PAD,
