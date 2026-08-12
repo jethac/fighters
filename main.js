@@ -274,46 +274,57 @@
         d = ortho(pts);
       }
     } else {
+      // Cross-lane edges get at most 2 turns wherever physically possible:
+      // one horizontal run, one vertical run, one horizontal run. The channel
+      // staircase survives only as a last resort for blocked long-haul edges.
       const down = rb > ra;
-      const g1 = down ? ra : ra - 1;       // channel adjacent to source, toward target
-      const g2 = down ? rb - 1 : rb;       // channel adjacent to target, on approach side
-      const x1 = placeVert(ax + (22 + i * 24) * sx, ay, chanY(g1, 2), sx, [], [a, b]);
-      if (Math.abs(x1 - b.x) < (b.sub ? 40 : (b.dw || 96) / 2 - 4) && down) {
-        // branch already sits over the child: drop straight onto its top
-        const eyv = b.y - (b.sub ? 16 : (b.dh || 60) / 2 + 3);
-        pts = [[ax, ay], [x1, ay], [x1, eyv]];
-        d = ortho(pts);
-      } else {
+      const rowsBetween = [];
+      for (let r = Math.min(ra, rb) + 1; r < Math.max(ra, rb); r++) rowsBetween.push(r);
+
+      // A: branch just after the parent, run the length of the child's lane
+      {
+        const xm = placeVert(ax + (22 + i * 24) * sx, ay, ey, sx, rowsBetween, [a, b]);
+        if ((xm - ax) * sx > 0 && (xm - ax) * sx < 260 && (ex - xm) * sx > 40 &&
+            laneClear(rb, xm + 8 * sx, b.x, [a, b])) {
+          pts = [[ax, ay], [xm, ay], [xm, ey], [ex, ey]];
+        }
+      }
+      // B: run along the parent's lane, drop just before the child
+      if (!pts) {
+        const xm = placeVert(ex - 26 * sx, ay, ey, -sx, rowsBetween, [a, b]);
+        if ((xm - ax) * sx > 40 && (ex - xm) * sx > 0 &&
+            laneClear(ra, a.x, xm, [a, b]) && laneClear(rb, xm + 8 * sx, b.x, [a, b])) {
+          pts = [[ax, ay], [xm, ay], [xm, ey], [ex, ey]];
+        }
+      }
+      // C: run the parent's lane all the way, drop onto the child's top (1 turn)
+      if (!pts && down && laneClear(ra, a.x, b.x, [a, b])) {
+        const xm = placeVert(b.x + fanOff, ay, b.y, sx, rowsBetween, [a, b]);
+        if (Math.abs(xm - b.x) < (b.sub ? 36 : (b.dw || 96) / 2 - 6)) {
+          const eyv = b.y - (b.sub ? 16 : (b.dh || 60) / 2 + 3);
+          pts = [[ax, ay], [xm, ay], [xm, eyv]];
+        }
+      }
+      // fallback (extreme cases): one vertical near the parent straight down to
+      // the channel beside the child's lane, one run, one drop — 4 corners max
+      if (!pts) {
+        const g2 = down ? rb - 1 : rb;
+        const x1 = placeVert(ax + (22 + i * 24) * sx, ay, chanY(g2, 2), sx, rowsBetween, [a, b]);
         const want = ex - 26 * sx;
         const sib = blockerAt(rb, want, [a, b]);
         let xW, eyv = null;
         if (sib && down) {
-          // a sibling occupies the approach slot: drop onto the child's top
           xW = b.x + fanOff;
           eyv = b.y - (b.sub ? 14 : (b.dh || 60) / 2 + 3);
         } else {
           xW = placeVert(want, chanY(g2, 2), ey, -sx, [], [a, b]);
         }
-        let head, yLast;
-        if (g1 === g2) {
-          const yC = alloc(g1, x1, xW);
-          head = [[ax, ay], [x1, ay], [x1, yC]];
-          yLast = yC;
-        } else {
-          const rowsBetween = [];
-          for (let r = Math.min(ra, rb) + 1; r < Math.max(ra, rb); r++) rowsBetween.push(r);
-          const xC = placeVert(xW - 34 * sx, chanY(g1, 2), chanY(g2, 2), -sx, rowsBetween, [a, b]);
-          const yC1 = alloc(g1, x1, xC);
-          const yC2 = alloc(g2, xC, xW);
-          head = [[ax, ay], [x1, ay], [x1, yC1], [xC, yC1], [xC, yC2]];
-          yLast = yC2;
-        }
-        const tail = eyv === null
-          ? [[xW, yLast], [xW, ey], [ex, ey]]
-          : [[xW, yLast], [xW, eyv]];
-        pts = head.concat(tail);
-        d = ortho(pts);
+        const yC = alloc(g2, x1, xW);
+        pts = [[ax, ay], [x1, ay], [x1, yC]].concat(eyv === null
+          ? [[xW, yC], [xW, ey], [ex, ey]]
+          : [[xW, yC], [xW, eyv]]);
       }
+      d = ortho(pts);
     }
 
     // "?" marker sits at the midpoint of the longest horizontal run
