@@ -137,12 +137,31 @@
   }
 
   // ---------- edges ----------
+  // fan-out index: separates multiple edges leaving one node in the same direction
+  const outIdx = new Map();
+  {
+    const groups = new Map();
+    for (const e of DATA.edges) {
+      const a = nodesById.get(e.f), b = nodesById.get(e.t);
+      if (!a || !b) continue;
+      const key = e.f + (b.x >= a.x ? ">" : "<");
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(e);
+    }
+    for (const list of groups.values()) {
+      list.sort((p, q) => {
+        const bp = nodesById.get(p.t), bq = nodesById.get(q.t);
+        return Math.abs(bp.y - nodesById.get(p.f).y) - Math.abs(bq.y - nodesById.get(q.f).y) || bp.x - bq.x;
+      });
+      list.forEach((e, i) => outIdx.set(e, i));
+    }
+  }
+
   const edgeEls = [];
   for (const e of DATA.edges) {
     const a = nodesById.get(e.f), b = nodesById.get(e.t);
     if (!a || !b) continue;
-    const path = document.createElementNS(NS, "path");
-    // shorten both ends so arrows meet sprite edges, not centers
+    // shorten both ends so arrows meet node edges, not centers
     let dx = b.x - a.x, dy = b.y - a.y;
     const len = Math.hypot(dx, dy) || 1;
     const ux = dx / len, uy = dy / len;
@@ -151,24 +170,47 @@
     const bx = b.x - ux * Math.min(nodeRadius(b), len * 0.4);
     const by = b.y - uy * Math.min(nodeRadius(b), len * 0.4);
     dx = bx - ax; dy = by - ay;
-    // same-lane edges that pass over intermediate nodes arc upward so
-    // collinear arrows (e.g. one node fanning out along its own row) never overlap
-    let arcH = 0;
+
+    // segment routing: mostly-horizontal runs with 45-degree jogs through the
+    // clear channels between lanes, so parallel edges never sit on one line
+    const sx = dx >= 0 ? 1 : -1;
+    const i = outIdx.get(e) || 0;
+    const CH = 75;                       // channel offset from a lane's centerline
+    function laneBlocked(y, x1, x2) {
+      const lo = Math.min(x1, x2) + 30, hi = Math.max(x1, x2) - 30;
+      return DATA.nodes.some(o => o !== a && o !== b && Math.abs(o.y - y) < 58 && o.x > lo && o.x < hi);
+    }
+    let d, qx, qy;
     if (Math.abs(a.y - b.y) < 60) {
-      const lo = Math.min(a.x, b.x) + 40, hi = Math.max(a.x, b.x) - 40;
-      const blocked = DATA.nodes.some(o =>
-        o !== a && o !== b && Math.abs(o.y - a.y) < 60 && o.x > lo && o.x < hi);
-      if (blocked) arcH = Math.min(130, 60 + Math.abs(dx) * 0.03);
-    }
-    let c1x, c1y, c2x, c2y;
-    if (arcH) {
-      c1x = ax + dx * 0.3; c1y = ay - arcH;
-      c2x = ax + dx * 0.7; c2y = by - arcH;
+      if (!laneBlocked(a.y, a.x, b.x)) {
+        d = `M ${ax} ${ay} L ${bx} ${by}`;
+        qx = ax + dx / 2; qy = ay + dy / 2 - 7;
+      } else {
+        // bypass: jog up into the channel above this lane, run, jog back down
+        const ch = ay - CH - i * 9;
+        const rise = Math.abs(ay - ch);
+        d = `M ${ax} ${ay} L ${ax + rise * sx} ${ch} L ${bx - rise * sx} ${ch} L ${bx} ${by}`;
+        qx = ax + dx / 2; qy = ch - 7;
+      }
     } else {
-      c1x = ax + dx * 0.5; c1y = ay;
-      c2x = ax + dx * 0.5; c2y = by;
+      const sgn = dy > 0 ? 1 : -1;
+      const ch = by - (CH + i * 9) * sgn;  // channel adjacent to the target lane
+      const drop1 = Math.abs(ch - ay), drop2 = Math.abs(by - ch);
+      const stub = 12 + i * 22;
+      const need = (stub + drop1 + drop2 + 24) * 1;
+      if (Math.abs(dx) < need) {
+        d = `M ${ax} ${ay} L ${bx} ${by}`;   // too tight: plain diagonal
+        qx = ax + dx / 2; qy = ay + dy / 2 - 7;
+      } else {
+        const x1 = ax + stub * sx;
+        const x2 = x1 + drop1 * sx;
+        const x3 = bx - drop2 * sx;
+        d = `M ${ax} ${ay} L ${x1} ${ay} L ${x2} ${ch} L ${x3} ${ch} L ${bx} ${by}`;
+        qx = (x2 + x3) / 2; qy = ch - 7;
+      }
     }
-    path.setAttribute("d", `M ${ax} ${ay} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${bx} ${by}`);
+    const path = document.createElementNS(NS, "path");
+    path.setAttribute("d", d);
     path.setAttribute("class", "edge");
     path.setAttribute("stroke", "#6fb6e8");
     path.setAttribute("stroke-width", "2");
@@ -185,8 +227,8 @@
     let qEl = null;
     if (e.q) {
       qEl = document.createElementNS(NS, "text");
-      qEl.setAttribute("x", ax + dx * 0.5);
-      qEl.setAttribute("y", ay + dy * 0.5 - 6 - arcH * 0.75);
+      qEl.setAttribute("x", qx);
+      qEl.setAttribute("y", qy);
       qEl.setAttribute("text-anchor", "middle");
       qEl.setAttribute("class", "edge-q");
       qEl.textContent = "?";
