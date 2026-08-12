@@ -57,7 +57,7 @@
       n.y = Y0 + n.row * ROW_H;
     }
     const s = SPR[n.id];
-    if (s) {
+    if (s && !n.sub) {
       const k = IMG_MAX / Math.max(s[0], s[1]);
       n.dw = Math.round(s[0] * k); n.dh = Math.round(s[1] * k);
     }
@@ -66,6 +66,7 @@
   // distance from node center at which edges should stop
   function nodeRadius(n) {
     if (n.st === "hub") return 105;
+    if (n.sub) return 52;
     return n.dw ? Math.max(n.dw, n.dh) / 2 + 8 : 16;
   }
 
@@ -150,7 +151,23 @@
     const bx = b.x - ux * Math.min(nodeRadius(b), len * 0.4);
     const by = b.y - uy * Math.min(nodeRadius(b), len * 0.4);
     dx = bx - ax; dy = by - ay;
-    const c1x = ax + dx * 0.5, c1y = ay, c2x = ax + dx * 0.5, c2y = by;
+    // same-lane edges that pass over intermediate nodes arc upward so
+    // collinear arrows (e.g. one node fanning out along its own row) never overlap
+    let arcH = 0;
+    if (Math.abs(a.y - b.y) < 60) {
+      const lo = Math.min(a.x, b.x) + 40, hi = Math.max(a.x, b.x) - 40;
+      const blocked = DATA.nodes.some(o =>
+        o !== a && o !== b && Math.abs(o.y - a.y) < 60 && o.x > lo && o.x < hi);
+      if (blocked) arcH = Math.min(130, 60 + Math.abs(dx) * 0.03);
+    }
+    let c1x, c1y, c2x, c2y;
+    if (arcH) {
+      c1x = ax + dx * 0.3; c1y = ay - arcH;
+      c2x = ax + dx * 0.7; c2y = by - arcH;
+    } else {
+      c1x = ax + dx * 0.5; c1y = ay;
+      c2x = ax + dx * 0.5; c2y = by;
+    }
     path.setAttribute("d", `M ${ax} ${ay} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${bx} ${by}`);
     path.setAttribute("class", "edge");
     path.setAttribute("stroke", "#6fb6e8");
@@ -169,7 +186,7 @@
     if (e.q) {
       qEl = document.createElementNS(NS, "text");
       qEl.setAttribute("x", ax + dx * 0.5);
-      qEl.setAttribute("y", ay + dy * 0.5 - 6);
+      qEl.setAttribute("y", ay + dy * 0.5 - 6 - arcH * 0.75);
       qEl.setAttribute("text-anchor", "middle");
       qEl.setAttribute("class", "edge-q");
       qEl.textContent = "?";
@@ -211,7 +228,9 @@
       g.appendChild(t); g.appendChild(t2);
     } else {
       let labelY;
-      if (n.dw) {
+      if (n.sub) {
+        labelY = n.y + 4;
+      } else if (n.dw) {
         const img = document.createElementNS(NS, "image");
         img.setAttribute("href", SPR[n.id][2]);
         img.setAttribute("x", n.x - n.dw / 2);
@@ -236,7 +255,7 @@
       const t = document.createElementNS(NS, "text");
       t.setAttribute("x", n.x); t.setAttribute("y", labelY);
       t.setAttribute("text-anchor", "middle");
-      t.setAttribute("font-size", "15");
+      t.setAttribute("font-size", n.sub ? "13.5" : "15");
       t.setAttribute("font-weight", "600");
       t.textContent = n.n;
       g.appendChild(t);
@@ -244,9 +263,9 @@
       const date = n.dl || n.dc;
       if (date) {
         const d = document.createElementNS(NS, "text");
-        d.setAttribute("x", n.x); d.setAttribute("y", labelY + 18);
+        d.setAttribute("x", n.x); d.setAttribute("y", labelY + (n.sub ? 15 : 18));
         d.setAttribute("text-anchor", "middle");
-        d.setAttribute("font-size", "12");
+        d.setAttribute("font-size", n.sub ? "10.5" : "12");
         d.setAttribute("class", "n-date");
         d.textContent = date + (n.dc && n.dl ? ` · ${n.dc} (canon)` : "");
         g.appendChild(d);
@@ -266,8 +285,8 @@
       });
 
       // selection ring + invisible hit target
-      const halfW = Math.max(n.dw ? n.dw / 2 : 40, 55);
-      const topY = n.dw ? n.y - n.dh / 2 : n.y - 25;
+      const halfW = n.sub ? 52 : Math.max(n.dw ? n.dw / 2 : 40, 55);
+      const topY = n.sub ? n.y - 14 : (n.dw ? n.y - n.dh / 2 : n.y - 25);
       const ring = document.createElementNS(NS, "rect");
       ring.setAttribute("class", "sel-ring");
       ring.setAttribute("x", n.x - halfW - 6); ring.setAttribute("y", topY - 6);
