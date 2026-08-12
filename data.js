@@ -365,7 +365,7 @@ window.FIGHTER_DATA = {
       wc: "Shenyang_J-11" },
     { id: "j11b", n: "Shenyang J-11B", st: "rw", nat: "China", mfr: "Shenyang Aircraft Corporation", t: 2003.9, row: 28, dl: "first flight 2003",
       wc: "Shenyang_J-11", note: "Continued Flanker production with Chinese avionics and (eventually) WS-10 engines — without a Sukhoi license." },
-    { id: "j15", n: "Shenyang J-15", st: "rw", nat: "China", mfr: "Shenyang Aircraft Corporation", t: 2009.5, row: 28, dl: "first flight 2009",
+    { id: "j15", n: "Shenyang J-15", st: "rw", nat: "China", mfr: "Shenyang Aircraft Corporation", t: 2009.5, row: 29, dl: "first flight 2009",
       wc: "Shenyang_J-15", dsg: "Carrier fighter for Liaoning and Shandong." },
     { id: "j16", n: "Shenyang J-16", st: "rw", nat: "China", mfr: "Shenyang Aircraft Corporation", t: 2013.9, row: 28, dl: "first flight 2011",
       wc: "Shenyang_J-16" }
@@ -577,7 +577,7 @@ window.FIGHTER_DATA = {
     "Israel", "South Africa", "Egypt · Iran", "Germany & heirs",
     "India", "Japan", "Taiwan", "South Korea",
     "Yakovlev", "Mikoyan-Gurevich", "MiG interceptors", "Lavochkin", "Sukhoi",
-    "Flanker family", "Shenyang", "Chengdu", "Shenyang · Flankers"
+    "Flanker family", "Shenyang", "Chengdu", "Shenyang · Flankers", "Shenyang · Carrier"
   ],
 
   groups: []
