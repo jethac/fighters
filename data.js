@@ -347,27 +347,27 @@ window.FIGHTER_DATA = {
       wc: "Shenyang_J-5", dsg: "Export F-5 (not to be confused with Northrop's); Poland-style license lineage from the MiG-17F." },
     { id: "j6", n: "Shenyang J-6", st: "rw", nat: "China", mfr: "Shenyang Aircraft Corporation", t: 1958.8, row: 26, dl: "first flight 1958",
       wc: "Shenyang_J-6", dsg: "Export F-6 — Pakistan's mainstay of the 1971 war." },
-    { id: "j7", n: "Chengdu J-7", st: "rw", nat: "China", mfr: "Chengdu Aircraft Corporation", t: 1966, row: 26, dl: "first flight 1966",
+    { id: "j7", n: "Chengdu J-7", st: "rw", nat: "China", mfr: "Chengdu Aircraft Corporation", t: 1966, row: 27, dl: "first flight 1966",
       wc: "Chengdu_J-7", dsg: "Export F-7 to ~14 countries; Pakistan F-7P/PG." },
     { id: "j8", n: "Shenyang J-8", st: "rw", nat: "China", mfr: "Shenyang Aircraft Corporation", t: 1969.3, row: 26, dl: "first flight 1969",
       wc: "Shenyang_J-8", dsg: "The J-8II 'Finback-B' is the definitive form." },
-    { id: "j10", n: "Chengdu J-10", st: "rw", nat: "China", mfr: "Chengdu Aircraft Corporation", t: 1998, row: 26, dl: "first flight 1998",
+    { id: "j10", n: "Chengdu J-10", st: "rw", nat: "China", mfr: "Chengdu Aircraft Corporation", t: 1998, row: 27, dl: "first flight 1998",
       wc: "Chengdu_J-10", dsg: "Export J-10CE to Pakistan (2022)." },
-    { id: "jf17", n: "JF-17 Thunder", st: "rw", nat: "China / Pakistan", mfr: "Chengdu / Pakistan Aeronautical Complex", t: 2003.5, row: 26, dl: "first flight 2003",
+    { id: "jf17", n: "JF-17 Thunder", st: "rw", nat: "China / Pakistan", mfr: "Chengdu / Pakistan Aeronautical Complex", t: 2003.5, row: 27, dl: "first flight 2003",
       wc: "CAC/PAC_JF-17_Thunder", gk: "JF-17_Thunder", dsg: "China: FC-1 Xiaolong; PAC Kamra final assembly; Myanmar, Nigeria, Azerbaijan." },
-    { id: "j20", n: "Chengdu J-20", st: "rw", nat: "China", mfr: "Chengdu Aircraft Corporation", t: 2011, row: 26, dl: "first flight 2011",
+    { id: "j20", n: "Chengdu J-20", st: "rw", nat: "China", mfr: "Chengdu Aircraft Corporation", t: 2011, row: 27, dl: "first flight 2011",
       wc: "Chengdu_J-20" },
     { id: "fc31", n: "Shenyang FC-31 / J-35", st: "rw", nat: "China", mfr: "Shenyang Aircraft Corporation", t: 2016.2, row: 26, dl: "first flight 2012",
       wc: "Shenyang_FC-31" },
 
     // ── China: Flanker lane ───────────────────────────────
-    { id: "j11", n: "Shenyang J-11", st: "rw", nat: "China", mfr: "Shenyang Aircraft Corporation", t: 1998.8, row: 27, dl: "first Chinese-assembled 1998",
+    { id: "j11", n: "Shenyang J-11", st: "rw", nat: "China", mfr: "Shenyang Aircraft Corporation", t: 1998.8, row: 28, dl: "first Chinese-assembled 1998",
       wc: "Shenyang_J-11" },
-    { id: "j11b", n: "Shenyang J-11B", st: "rw", nat: "China", mfr: "Shenyang Aircraft Corporation", t: 2003.9, row: 27, dl: "first flight 2003",
+    { id: "j11b", n: "Shenyang J-11B", st: "rw", nat: "China", mfr: "Shenyang Aircraft Corporation", t: 2003.9, row: 28, dl: "first flight 2003",
       wc: "Shenyang_J-11", note: "Continued Flanker production with Chinese avionics and (eventually) WS-10 engines — without a Sukhoi license." },
-    { id: "j15", n: "Shenyang J-15", st: "rw", nat: "China", mfr: "Shenyang Aircraft Corporation", t: 2009.5, row: 27, dl: "first flight 2009",
+    { id: "j15", n: "Shenyang J-15", st: "rw", nat: "China", mfr: "Shenyang Aircraft Corporation", t: 2009.5, row: 28, dl: "first flight 2009",
       wc: "Shenyang_J-15", dsg: "Carrier fighter for Liaoning and Shandong." },
-    { id: "j16", n: "Shenyang J-16", st: "rw", nat: "China", mfr: "Shenyang Aircraft Corporation", t: 2013.9, row: 27, dl: "first flight 2011",
+    { id: "j16", n: "Shenyang J-16", st: "rw", nat: "China", mfr: "Shenyang Aircraft Corporation", t: 2013.9, row: 28, dl: "first flight 2011",
       wc: "Shenyang_J-16" }
   ],
 
@@ -577,7 +577,7 @@ window.FIGHTER_DATA = {
     "Israel", "South Africa", "Egypt · Iran", "Germany & heirs",
     "India", "Japan", "Taiwan", "South Korea",
     "Yakovlev", "Mikoyan-Gurevich", "MiG interceptors", "Lavochkin", "Sukhoi",
-    "Flanker family", "China", "China · Flankers"
+    "Flanker family", "Shenyang", "Chengdu", "Shenyang · Flankers"
   ],
 
   groups: []
