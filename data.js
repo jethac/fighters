@@ -345,7 +345,7 @@ window.FIGHTER_DATA = {
       wc: "CAC/PAC_JF-17_Thunder", gk: "JF-17_Thunder", dsg: "China: FC-1 Xiaolong; PAC Kamra final assembly; Myanmar, Nigeria, Azerbaijan." },
     { id: "j20", n: "Chengdu J-20", st: "rw", nat: "China", mfr: "Chengdu Aircraft Corporation", t: 2011, row: 20, dl: "first flight 2011",
       wc: "Chengdu_J-20" },
-    { id: "fc31", n: "Shenyang FC-31 / J-35", st: "rw", nat: "China", mfr: "Shenyang Aircraft Corporation", t: 2014.5, row: 20, dl: "first flight 2012",
+    { id: "fc31", n: "Shenyang FC-31 / J-35", st: "rw", nat: "China", mfr: "Shenyang Aircraft Corporation", t: 2016.2, row: 20, dl: "first flight 2012",
       wc: "Shenyang_FC-31" },
 
     // ── China: Flanker lane ───────────────────────────────

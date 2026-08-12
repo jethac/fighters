@@ -171,14 +171,34 @@
     const by = b.y - uy * Math.min(nodeRadius(b), len * 0.4);
     dx = bx - ax; dy = by - ay;
 
-    // segment routing: mostly-horizontal runs with 45-degree jogs through the
-    // clear channels between lanes, so parallel edges never sit on one line
+    // menorah routing: horizontal trunk lanes with squared-off branches.
+    // A branch leaves its parent, turns 90 degrees (rounded), runs vertically
+    // to the child's lane, turns again, and runs horizontally into the child -
+    // so every line is horizontal or vertical, and branches from one node
+    // stagger their turn points to stay parallel, never collinear.
     const sx = dx >= 0 ? 1 : -1;
     const i = outIdx.get(e) || 0;
-    const CH = 75;                       // channel offset from a lane's centerline
+    const R = 16;                        // corner radius
+    const CH = 75;                       // bypass channel offset from a lane
     function laneBlocked(y, x1, x2) {
       const lo = Math.min(x1, x2) + 30, hi = Math.max(x1, x2) - 30;
       return DATA.nodes.some(o => o !== a && o !== b && Math.abs(o.y - y) < 58 && o.x > lo && o.x < hi);
+    }
+    // rounded orthogonal path through corner points
+    function ortho(pts) {
+      let s = `M ${pts[0][0]} ${pts[0][1]}`;
+      for (let k = 1; k < pts.length - 1; k++) {
+        const [px, py] = pts[k - 1], [cx2, cy2] = pts[k], [nx2, ny2] = pts[k + 1];
+        const r1 = Math.min(R, Math.hypot(cx2 - px, cy2 - py) / 2);
+        const r2 = Math.min(R, Math.hypot(nx2 - cx2, ny2 - cy2) / 2);
+        const r = Math.min(r1, r2);
+        const inx = cx2 - Math.sign(cx2 - px) * r, iny = cy2 - Math.sign(cy2 - py) * r;
+        const outx = cx2 + Math.sign(nx2 - cx2) * r, outy = cy2 + Math.sign(ny2 - cy2) * r;
+        s += ` L ${inx} ${iny} Q ${cx2} ${cy2}, ${outx} ${outy}`;
+      }
+      const last = pts[pts.length - 1];
+      s += ` L ${last[0]} ${last[1]}`;
+      return s;
     }
     let d, qx, qy;
     if (Math.abs(a.y - b.y) < 60) {
@@ -186,27 +206,22 @@
         d = `M ${ax} ${ay} L ${bx} ${by}`;
         qx = ax + dx / 2; qy = ay + dy / 2 - 7;
       } else {
-        // bypass: jog up into the channel above this lane, run, jog back down
-        const ch = ay - CH - i * 9;
-        const rise = Math.abs(ay - ch);
-        d = `M ${ax} ${ay} L ${ax + rise * sx} ${ch} L ${bx - rise * sx} ${ch} L ${bx} ${by}`;
-        qx = ax + dx / 2; qy = ch - 7;
+        // bump over intermediate nodes: up into the channel, along, back down
+        const ch = ay - CH - i * 10;
+        const x1 = ax + (26 + i * 22) * sx;
+        const x2 = bx - 30 * sx;
+        d = ortho([[ax, ay], [x1, ay], [x1, ch], [x2, ch], [x2, by], [bx, by]]);
+        qx = (x1 + x2) / 2; qy = ch - 7;
       }
     } else {
-      const sgn = dy > 0 ? 1 : -1;
-      const ch = by - (CH + i * 9) * sgn;  // channel adjacent to the target lane
-      const drop1 = Math.abs(ch - ay), drop2 = Math.abs(by - ch);
-      const stub = 12 + i * 22;
-      const need = (stub + drop1 + drop2 + 24) * 1;
-      if (Math.abs(dx) < need) {
-        d = `M ${ax} ${ay} L ${bx} ${by}`;   // too tight: plain diagonal
+      const stub = (20 + i * 24) * sx;
+      const x1 = ax + stub;                // branch point near the parent
+      if (Math.abs(dx) < Math.abs(stub) + R * 2 + 30) {
+        d = `M ${ax} ${ay} L ${bx} ${by}`; // too tight: plain line
         qx = ax + dx / 2; qy = ay + dy / 2 - 7;
       } else {
-        const x1 = ax + stub * sx;
-        const x2 = x1 + drop1 * sx;
-        const x3 = bx - drop2 * sx;
-        d = `M ${ax} ${ay} L ${x1} ${ay} L ${x2} ${ch} L ${x3} ${ch} L ${bx} ${by}`;
-        qx = (x2 + x3) / 2; qy = ch - 7;
+        d = ortho([[ax, ay], [x1, ay], [x1, by], [bx, by]]);
+        qx = (x1 + bx) / 2; qy = by - 8;
       }
     }
     const path = document.createElementNS(NS, "path");
